@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remote Canvas</title>
+</head>
+<body>
+  <script>
+    // Connect to the WebSocket server
+    let socket = new WebSocket('ws://localhost:8080');
+
+    // Send tap coordinates to server
+    document.body.addEventListener('click', (event) => {
+      let rect = document.body.getBoundingClientRect();
+      let x = event.clientX - rect.left;
+      let y = event.clientY - rect.top;
+      let data = { x: x, y: y };
+      socket.send(JSON.stringify(data));
+    });
+  </script>
+</body>
+</html>
