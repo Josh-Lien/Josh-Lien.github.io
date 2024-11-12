@@ -6,9 +6,12 @@
   <title>Remote Canvas</title>
 </head>
 <body>
+  <h1>Remote Canvas</h1>
+  <p>Click or tap anywhere to send coordinates!</p>
+
   <script>
     // Connect to the WebSocket server
-    let socket = new WebSocket('ws://localhost:8080');
+    let socket = new WebSocket('ws://2607:fea8:6ca4:6800:7087:5c3a:c2fa:7fd1:8080');
 
     // Send tap coordinates to server
     document.body.addEventListener('click', (event) => {
@@ -18,6 +21,18 @@
       let data = { x: x, y: y };
       socket.send(JSON.stringify(data));
     });
+
+    socket.onopen = () => {
+      console.log("Connected to WebSocket server!");
+    };
+
+    socket.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+
+    socket.onclose = () => {
+      console.log("Disconnected from WebSocket server.");
+    };
   </script>
 </body>
 </html>
